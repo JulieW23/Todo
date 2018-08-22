@@ -26,10 +26,10 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TodoItemCell" id="G7E-kp-ICM">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="G7E-kp-ICM" customClass="SwipeTableViewCell" customModule="SwipeCellKit">
                                 <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="G7E-kp-ICM" id="cN9-Go-VBX">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="G7E-kp-ICM" id="cN9-Go-VBX" customClass="Swipe">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
@@ -42,28 +42,34 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Items" id="UR6-o8-J9X">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="B6b-jH-JhD">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="lMr-pe-Thl" id="qhR-zA-1Qi"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="searchBar" destination="WRB-gY-Zeu" id="Eej-8T-x6w"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v1C-Wj-b2y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2862" y="134"/>
+            <point key="canvasLocation" x="3800.8000000000002" y="133.5832083958021"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Item-->
         <scene sceneID="msU-4g-1O4">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ecu-ia-btY" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="jyo-Mt-9RQ"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KZu-Kk-M1k">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="KZu-Kk-M1k">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" cocoaTouchSystemColor="darkTextColor"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -73,9 +79,9 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3GM-5o-BDh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="936.79999999999995" y="133.5832083958021"/>
+            <point key="canvasLocation" x="1876" y="133.5832083958021"/>
         </scene>
-        <!--Todo-->
+        <!--Categories-->
         <scene sceneID="ALe-Lk-unM">
             <objects>
                 <tableViewController id="ySL-db-vlU" customClass="CategoryViewController" customModule="Todo" customModuleProvider="target" sceneMemberID="viewController">
@@ -84,11 +90,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryCell" id="M9q-Of-BzE">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Cell" id="M9q-Of-BzE" customClass="SwipeTableViewCell" customModule="SwipeCellKit">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="M9q-Of-BzE" id="2Eu-Sa-Oeg">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -98,7 +104,7 @@
                             <outlet property="delegate" destination="ySL-db-vlU" id="cZf-g7-bte"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Todo" id="Zxq-Ze-xyd">
+                    <navigationItem key="navigationItem" title="Categories" id="Zxq-Ze-xyd">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="AUg-Iw-Wfg">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -112,7 +118,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8gm-BG-g5H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1892" y="134"/>
+            <point key="canvasLocation" x="2831.1999999999998" y="133.5832083958021"/>
         </scene>
     </scenes>
 </document>
