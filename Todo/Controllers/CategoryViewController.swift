@@ -33,7 +33,6 @@ class CategoryViewController: SwipeTableViewController {
             guard let categoryColour = UIColor(hexString: category.colour) else {fatalError()}
             cell.backgroundColor = categoryColour
             cell.textLabel?.textColor = ContrastColorOf(categoryColour, returnFlat: true)
-//            cell.tintColor = ContrastColorOf(categoryColour, returnFlat: true)
         }
         return cell
     }
@@ -45,9 +44,10 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! TodoListViewController
-        if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = viewModel.categories?[indexPath.row]
+        if let destinationVC = segue.destination as? TodoListViewController {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.selectedCategory = viewModel.categories?[indexPath.row]
+            }
         }
     }
     
@@ -63,8 +63,10 @@ class CategoryViewController: SwipeTableViewController {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
-            self.viewModel.save(name: textField.text!, colour: RandomFlatColorWithShade(.light).hexValue())
-            self.tableView.reloadData()
+            if (textField.text?.count)! > 0 {
+                self.viewModel.save(name: textField.text!, colour: RandomFlatColorWithShade(.light).hexValue())
+                self.tableView.reloadData()
+            }
         }
         alert.addAction(action)
         alert.addTextField { (field) in

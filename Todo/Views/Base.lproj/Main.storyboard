@@ -6,9 +6,51 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Item-->
+        <scene sceneID="nIw-gd-fud">
+            <objects>
+                <viewController id="vB9-e0-0lw" customClass="ActivityViewController" customModule="Todo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sGz-jH-EAj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="XJD-t3-aUN">
+                                <rect key="frame" x="127" y="132" width="121" height="29"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                            </segmentedControl>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhd-wY-35Q" customClass="BarChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="176" width="375" height="176"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jZr-7D-iSP" firstAttribute="bottom" secondItem="jhd-wY-35Q" secondAttribute="bottom" constant="266" id="0kY-AF-jmx"/>
+                            <constraint firstItem="jhd-wY-35Q" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" id="6Xd-Pa-MIR"/>
+                            <constraint firstItem="jhd-wY-35Q" firstAttribute="trailing" secondItem="jZr-7D-iSP" secondAttribute="trailing" id="AZ2-ue-fme"/>
+                            <constraint firstItem="jhd-wY-35Q" firstAttribute="top" secondItem="XJD-t3-aUN" secondAttribute="bottom" constant="16" id="XZC-uH-Nn8"/>
+                            <constraint firstItem="XJD-t3-aUN" firstAttribute="top" secondItem="jZr-7D-iSP" secondAttribute="top" constant="16" id="amj-G3-hTl"/>
+                            <constraint firstItem="XJD-t3-aUN" firstAttribute="centerX" secondItem="sGz-jH-EAj" secondAttribute="centerX" id="sr2-z2-DA9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="jZr-7D-iSP"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="0u5-Yj-B98"/>
+                    <connections>
+                        <outlet property="barChartView" destination="jhd-wY-35Q" id="dAD-tu-Ial"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gbm-Zm-svi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4740" y="-637.33133433283365"/>
+        </scene>
         <!--Items-->
         <scene sceneID="6lp-pF-TX4">
             <objects>
@@ -105,12 +147,20 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Categories" id="Zxq-Ze-xyd">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="AUg-Iw-Wfg">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="addButtonPressed:" destination="ySL-db-vlU" id="HZc-NJ-NrR"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="AUg-Iw-Wfg">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="addButtonPressed:" destination="ySL-db-vlU" id="HZc-NJ-NrR"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="stats-icon" id="nqw-Lo-ZiT">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <segue destination="bbA-nB-bJA" kind="show" id="BL8-DE-XHm"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <segue destination="lMr-pe-Thl" kind="show" identifier="goToItems" id="ks4-Tv-7ia"/>
@@ -120,5 +170,25 @@
             </objects>
             <point key="canvasLocation" x="2831.1999999999998" y="133.5832083958021"/>
         </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="1QY-pu-jW0">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="bbA-nB-bJA" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WKB-Wf-SH8">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="vB9-e0-0lw" kind="relationship" relationship="viewControllers" id="hGu-bT-M0M"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bCx-gh-24W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3800.8000000000002" y="-637.33133433283365"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="stats-icon" width="24" height="24"/>
+    </resources>
 </document>
