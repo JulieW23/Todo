@@ -9,5 +9,6 @@ target 'Todo' do
   pod 'SwipeCellKit'
   pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
   pod 'Charts', '~> 3.1.1'
+  pod 'IGColorPicker'
 
 end

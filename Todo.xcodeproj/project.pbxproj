@@ -12,6 +12,8 @@
 		A1A0F522212DBE3100EA073B /* SwipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A0F521212DBE3100EA073B /* SwipeTableViewController.swift */; };
 		A1A0F525212DFFD100EA073B /* TodoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A0F524212DFFD100EA073B /* TodoListViewModel.swift */; };
 		A1A0F527212E002100EA073B /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A0F526212E002100EA073B /* CategoryViewModel.swift */; };
+		A1A930A121304FE3009FF768 /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A930A021304FE3009FF768 /* ActivityViewModel.swift */; };
+		A1A930A32130A146009FF768 /* ColourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A930A22130A146009FF768 /* ColourViewController.swift */; };
 		A1AF1E20212F27C100D4FAD0 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF1E1F212F27C100D4FAD0 /* ActivityViewController.swift */; };
 		A1AF3C1D212C510A00E91392 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF3C1C212C510A00E91392 /* AppDelegate.swift */; };
 		A1AF3C1F212C510A00E91392 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF3C1E212C510A00E91392 /* TodoListViewController.swift */; };
@@ -31,6 +33,8 @@
 		A1A0F521212DBE3100EA073B /* SwipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewController.swift; sourceTree = "<group>"; };
 		A1A0F524212DFFD100EA073B /* TodoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewModel.swift; sourceTree = "<group>"; };
 		A1A0F526212E002100EA073B /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		A1A930A021304FE3009FF768 /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
+		A1A930A22130A146009FF768 /* ColourViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourViewController.swift; sourceTree = "<group>"; };
 		A1AF1E1F212F27C100D4FAD0 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		A1AF3C19212C510A00E91392 /* Todo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AF3C1C212C510A00E91392 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +80,7 @@
 			children = (
 				A1A0F526212E002100EA073B /* CategoryViewModel.swift */,
 				A1A0F524212DFFD100EA073B /* TodoListViewModel.swift */,
+				A1A930A021304FE3009FF768 /* ActivityViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -125,10 +130,11 @@
 		A1AF3C31212C677800E91392 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A1A0F521212DBE3100EA073B /* SwipeTableViewController.swift */,
 				A1AF3C57212CB32400E91392 /* CategoryViewController.swift */,
 				A1AF3C1E212C510A00E91392 /* TodoListViewController.swift */,
 				A1AF1E1F212F27C100D4FAD0 /* ActivityViewController.swift */,
-				A1A0F521212DBE3100EA073B /* SwipeTableViewController.swift */,
+				A1A930A22130A146009FF768 /* ColourViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -237,6 +243,8 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Todo/Pods-Todo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/IGColorPicker/IGColorPicker.framework",
+				"${BUILT_PRODUCTS_DIR}/M13Checkbox/M13Checkbox.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
@@ -245,6 +253,8 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGColorPicker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13Checkbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
@@ -264,8 +274,10 @@
 				A1A0F51C212D9FC600EA073B /* Item.swift in Sources */,
 				A1AF3C58212CB32400E91392 /* CategoryViewController.swift in Sources */,
 				A1A0F525212DFFD100EA073B /* TodoListViewModel.swift in Sources */,
+				A1A930A32130A146009FF768 /* ColourViewController.swift in Sources */,
 				A1AF3C1F212C510A00E91392 /* TodoListViewController.swift in Sources */,
 				A1AF1E20212F27C100D4FAD0 /* ActivityViewController.swift in Sources */,
+				A1A930A121304FE3009FF768 /* ActivityViewModel.swift in Sources */,
 				A1A0F527212E002100EA073B /* CategoryViewModel.swift in Sources */,
 				A1AF3C1D212C510A00E91392 /* AppDelegate.swift in Sources */,
 				A1A0F522212DBE3100EA073B /* SwipeTableViewController.swift in Sources */,

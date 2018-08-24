@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import ChameleonFramework
+import SwipeCellKit
 
 class CategoryViewController: SwipeTableViewController {
     
@@ -35,6 +36,38 @@ class CategoryViewController: SwipeTableViewController {
             cell.textLabel?.textColor = ContrastColorOf(categoryColour, returnFlat: true)
         }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+            self.updateModel(at: indexPath)
+        }
+        
+        let colourAction = SwipeAction(style: .destructive, title: "Colour") { action, indexPath in
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let colourViewController = storyBoard.instantiateViewController(withIdentifier: "colourView") as! ColourViewController
+            colourViewController.categoryViewController = self
+            colourViewController.categoryIndexPath = indexPath
+            self.navigationController?.pushViewController(colourViewController, animated: true)
+        }
+        
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "delete-icon")
+        colourAction.image = UIImage(named: "colour-picker-icon")
+        colourAction.backgroundColor = UIColor.orange
+        
+        return [deleteAction, colourAction]
+    }
+    
+    // MARK: - Change category colour
+    // TODO: PERSIST COLOUR CHANGE
+    func changeCategoryColour(indexPath: IndexPath, colour: UIColor) {
+//        let cell = tableView.cellForRow(at: indexPath)
+//        cell?.backgroundColor = colour
+        print(colour)
     }
     
     // Mark: - Tableview delegate

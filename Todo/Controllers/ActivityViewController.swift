@@ -11,21 +11,31 @@ import Charts
 import ChameleonFramework
 
 class ActivityViewController: UIViewController {
+    
+    private let viewModel: ActivityViewModel = ActivityViewModel()
 
     @IBOutlet weak var barChartView: BarChartView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
-    var unitsSold: [Double] = []
+    @IBAction func handleSegmentChange(_ sender: Any) {
+        checkSelectedSegment()
+        setChart(values: viewModel.itemsDone)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // for testing purposes, generate random data
-        for _ in 0..<24 {
-            unitsSold.append(Double(arc4random_uniform(10)))
-        }
         
-        setChart(xNumber: 24, values: unitsSold)
+        checkSelectedSegment()
+        setChart(values: viewModel.itemsDone)
         
+        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
+        navBar.tintColor = UIColor.white
+        barChartSetup()
+    }
+    
+    
+    // styling
+    private func barChartSetup() {
         barChartView.highlightPerTapEnabled = false
         barChartView.drawGridBackgroundEnabled = false
         barChartView.leftAxis.enabled = false
@@ -34,10 +44,24 @@ class ActivityViewController: UIViewController {
         barChartView.chartDescription?.text = ""
     }
     
-    func setChart(xNumber: Int, values: [Double]) {
+    // loads data for the selected segment
+    private func checkSelectedSegment() {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0: viewModel.loadStats(for: .day)
+        case 1: viewModel.loadStats(for: .week)
+        case 2: viewModel.loadStats(for: .month)
+        case 3: viewModel.loadStats(for: .year)
+        default: break
+        }
+        barChartView.data?.notifyDataChanged()
+        barChartView.notifyDataSetChanged()
+    }
+    
+    // display data in chart
+    private func setChart(values: [Double]) {
         var dataEntries: [BarChartDataEntry] = []
-        for i in 0..<xNumber {
-            let dataEntry = BarChartDataEntry(x: Double(i), y: unitsSold[i])
+        for i in 0..<values.count {
+            let dataEntry = BarChartDataEntry(x: Double(i), y: viewModel.itemsDone[i])
             dataEntries.append(dataEntry)
         }
         
@@ -45,6 +69,6 @@ class ActivityViewController: UIViewController {
         chartDataSet.colors = [FlatNavyBlue()]
         let chartData = BarChartData(dataSets: [chartDataSet])
         barChartView.data = chartData
-//        barChartView.animate(xAxisDuration: 2.0, yAxisDuration:1.0, easingOption: .linear)
+        barChartView.animate(xAxisDuration: 2.0, yAxisDuration:1.0, easingOption: .linear)
     }
 }
