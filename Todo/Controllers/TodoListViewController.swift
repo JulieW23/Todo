@@ -45,7 +45,7 @@ class TodoListViewController: SwipeTableViewController {
         searchBar.barTintColor = navBarColour
     }
     
-    // MARK - Tableview datasource
+    // MARK: - Tableview datasource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.todoItems?.count ?? 1
     }
@@ -59,10 +59,9 @@ class TodoListViewController: SwipeTableViewController {
             if let colour = UIColor(hexString: selectedCategory!.colour)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(viewModel.todoItems!.count)) {
                 cell.backgroundColor = colour
                 cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
-                cell.tintColor = ContrastColorOf(colour, returnFlat: true)
+//                cell.tintColor = ContrastColorOf(colour, returnFlat: true)
             }
-        
-            cell.accessoryType = item.done ? .checkmark : .none
+            
         } else {
             cell.textLabel?.text = "No Items Added"
         }
@@ -70,15 +69,7 @@ class TodoListViewController: SwipeTableViewController {
         return cell
     }
     
-    // MARK - Tableview delegate
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let item = viewModel.todoItems?[indexPath.row] {
-            viewModel.setDone(item: item)
-        }
-        tableView.reloadData()
-    }
-    
-    // MARK - Add new items
+    // MARK: - Add new items
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
          let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
@@ -99,7 +90,7 @@ class TodoListViewController: SwipeTableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    // Mark - Model Manipulation Methods
+    // MARK: - Model Manipulation Methods
     private func loadItems() {
         viewModel.todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
         tableView.reloadData()
@@ -112,7 +103,7 @@ class TodoListViewController: SwipeTableViewController {
     }
 }
 
-// MARK - Searchbar
+// MARK: - Searchbar
 extension TodoListViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         viewModel.todoItems = viewModel.todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)

@@ -11,33 +11,46 @@ import RealmSwift
 
 class ActivityViewModel {
     var itemsDone: [Double] = []
+    let realm = try! Realm()
     
-    enum timeFrame: String {
-        case day = "day"
-        case week = "week"
-        case month = "month"
-        case year = "year"
+    enum timeFrame {
+        case day
+        case month
+        case year
     }
     
     func loadStats(for timeFrame: timeFrame) {
         // clear array
         itemsDone = []
-        switch timeFrame {
-        case .day:
-            for _ in 0..<24 {
-                itemsDone.append(Double(arc4random_uniform(10)))
+        
+        let now = Date()
+        let calendar = NSCalendar.current
+        let component = calendar.dateComponents([.year, .month, .day, .hour], from: now)
+        if let year = component.year, let month = component.month, let day = component.day, let hour = component.hour {
+            switch timeFrame {
+            case .day:
+                loadStatsHelper(xNumber: 24, filterString: "day == \(day)", timeFrame: .day)
+            case .month:
+                loadStatsHelper(xNumber: 31, filterString: "month == \(month)", timeFrame: .month)
+            case .year:
+                loadStatsHelper(xNumber: 12, filterString: "year == \(year)", timeFrame: .year)
             }
-        case .week:
-            for _ in 0..<7 {
-                itemsDone.append(Double(arc4random_uniform(10)))
-            }
-        case .month:
-            for _ in 0..<30 {
-                itemsDone.append(Double(arc4random_uniform(10)))
-            }
-        case .year:
-            for _ in 0..<12 {
-                itemsDone.append(Double(arc4random_uniform(10)))
+        }
+    }
+    
+    func loadStatsHelper(xNumber: Int, filterString: String, timeFrame: timeFrame) {
+        // fill itemsDone with the right number of slots
+        for _ in 0..<xNumber {
+            itemsDone.append(0)
+        }
+        // get data for the day/week/month/year
+        let deletes = realm.objects(DeleteData.self).filter(filterString)
+        // count entries into the correct slots
+        for entry in deletes {
+            switch timeFrame {
+            case .day: itemsDone[entry.hour] += 1
+            case .month: itemsDone[entry.day] += 1
+            case .year: itemsDone[entry.month] += 1
             }
         }
     }

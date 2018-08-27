@@ -30,7 +30,6 @@ class CategoryViewModel {
     // load all categories
     func loadCategories() {
         categories = realm.objects(Category.self)
-        
     }
     
     // delete a category and all of it's items
@@ -46,6 +45,19 @@ class CategoryViewModel {
             }
         } catch {
             print ("Error deleting category")
+        }
+    }
+    
+    func updateColour(indexPath: IndexPath, hexValue: String) {
+        let categoryName = categories?[indexPath.row].name
+        if let specificCategory = realm.object(ofType: Category.self, forPrimaryKey: categoryName) {
+            do {
+                try realm.write {
+                    specificCategory.colour = hexValue
+                }
+            } catch {
+                print("error updating category colour, \(error)")
+            }
         }
     }
 }

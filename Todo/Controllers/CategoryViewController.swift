@@ -61,16 +61,8 @@ class CategoryViewController: SwipeTableViewController {
         
         return [deleteAction, colourAction]
     }
-    
-    // MARK: - Change category colour
-    // TODO: PERSIST COLOUR CHANGE
-    func changeCategoryColour(indexPath: IndexPath, colour: UIColor) {
-//        let cell = tableView.cellForRow(at: indexPath)
-//        cell?.backgroundColor = colour
-        print(colour)
-    }
-    
-    // Mark: - Tableview delegate
+
+    // MARK: - Tableview delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToItems", sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -84,14 +76,19 @@ class CategoryViewController: SwipeTableViewController {
         }
     }
     
-    // Mark: - Delete data from swipe
+    // MARK: - Updating data
+    func changeCategoryColour(indexPath: IndexPath, colour: UIColor) {
+        viewModel.updateColour(indexPath: indexPath, hexValue: colour.hexValue())
+        tableView.reloadData()
+    }
+    
     override func updateModel(at indexPath: IndexPath) {
+        // delete a category
         if let categoryForDeletion = self.viewModel.categories?[indexPath.row] {
             viewModel.delete(category: categoryForDeletion)
         }
     }
     
-    // MARK: - Add new categories
     @IBAction func addButtonPressed(_ sender: Any) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
@@ -99,6 +96,7 @@ class CategoryViewController: SwipeTableViewController {
             if (textField.text?.count)! > 0 {
                 self.viewModel.save(name: textField.text!, colour: RandomFlatColorWithShade(.light).hexValue())
                 self.tableView.reloadData()
+            
             }
         }
         alert.addAction(action)
