@@ -23,6 +23,7 @@
                                 <rect key="frame" x="16" y="132" width="343" height="29"/>
                                 <segments>
                                     <segment title="Day"/>
+                                    <segment title="Week"/>
                                     <segment title="Month"/>
                                     <segment title="Year"/>
                                 </segments>
@@ -47,6 +48,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AVERAGE:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q2O-tc-pnv">
+                                <rect key="frame" x="16" y="499.5" width="122" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -54,6 +61,7 @@
                             <constraint firstItem="im6-12-oHQ" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" constant="16" id="2kT-xx-gcK"/>
                             <constraint firstItem="jZr-7D-iSP" firstAttribute="bottom" secondItem="jhd-wY-35Q" secondAttribute="bottom" constant="242" id="D7t-9t-wiP"/>
                             <constraint firstItem="1xV-y1-02x" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" constant="16" id="EyR-wg-hS4"/>
+                            <constraint firstItem="Q2O-tc-pnv" firstAttribute="top" secondItem="1xV-y1-02x" secondAttribute="bottom" constant="16" id="KZD-As-Wbj"/>
                             <constraint firstItem="XJD-t3-aUN" firstAttribute="top" secondItem="jZr-7D-iSP" secondAttribute="top" constant="16" id="R0O-Na-d49"/>
                             <constraint firstItem="jZr-7D-iSP" firstAttribute="trailing" secondItem="jhd-wY-35Q" secondAttribute="trailing" constant="16" id="UQX-IA-wCx"/>
                             <constraint firstItem="XJD-t3-aUN" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" constant="16" id="YFS-xc-U6w"/>
@@ -61,11 +69,13 @@
                             <constraint firstItem="jZr-7D-iSP" firstAttribute="trailing" secondItem="XJD-t3-aUN" secondAttribute="trailing" constant="16" id="jhR-H4-UZw"/>
                             <constraint firstItem="jhd-wY-35Q" firstAttribute="top" secondItem="im6-12-oHQ" secondAttribute="bottom" constant="10" id="lUz-2X-8le"/>
                             <constraint firstItem="jhd-wY-35Q" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" constant="16" id="oQC-87-46d"/>
+                            <constraint firstItem="Q2O-tc-pnv" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" constant="16" id="yo6-qx-w2h"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jZr-7D-iSP"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="0u5-Yj-B98"/>
                     <connections>
+                        <outlet property="averageLabel" destination="Q2O-tc-pnv" id="BCc-BH-pcn"/>
                         <outlet property="barChartView" destination="jhd-wY-35Q" id="dAD-tu-Ial"/>
                         <outlet property="segmentedControl" destination="XJD-t3-aUN" id="JXr-4f-psv"/>
                         <outlet property="titleLabel" destination="im6-12-oHQ" id="n8f-0Z-ZdZ"/>
@@ -172,6 +182,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Categories" id="Zxq-Ze-xyd">
+                        <barButtonItem key="leftBarButtonItem" title="Done" id="7wu-jF-jqU">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="ySL-db-vlU" id="5BE-IB-ToT"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="AUg-Iw-Wfg">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -188,6 +204,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="doneButton" destination="7wu-jF-jqU" id="axJ-Oz-3Jd"/>
                         <segue destination="lMr-pe-Thl" kind="show" identifier="goToItems" id="ks4-Tv-7ia"/>
                     </connections>
                 </tableViewController>

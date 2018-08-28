@@ -11,15 +11,34 @@ import RealmSwift
 import ChameleonFramework
 import SwipeCellKit
 
-class CategoryViewController: SwipeTableViewController {
+class CategoryViewController: SwipeTableViewController, UIGestureRecognizerDelegate {
+    
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     
     private let viewModel: CategoryViewModel = CategoryViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        longPress.delegate = self
+        tableView.addGestureRecognizer(longPress)
+        doneButton.title = ""
         
         viewModel.loadCategories()
         tableView.reloadData()
+    }
+    
+    // MARK: - reorder category functions
+    @objc func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
+        self.title = "Rearrange"
+        doneButton.title = "Done"
+        self.tableView.isEditing = true
+    }
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        self.title = "Categories"
+        tableView.isEditing = false
+        doneButton.title = ""
     }
     
     // MARK: - Tableview datasource
@@ -61,6 +80,18 @@ class CategoryViewController: SwipeTableViewController {
         
         return [deleteAction, colourAction]
     }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .none
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        viewModel.reorder(sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
+    }
 
     // MARK: - Tableview delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -85,7 +116,7 @@ class CategoryViewController: SwipeTableViewController {
     override func updateModel(at indexPath: IndexPath) {
         // delete a category
         if let categoryForDeletion = self.viewModel.categories?[indexPath.row] {
-            viewModel.delete(category: categoryForDeletion)
+            self.viewModel.delete(category: categoryForDeletion)
         }
     }
     

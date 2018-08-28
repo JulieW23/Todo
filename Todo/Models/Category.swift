@@ -12,6 +12,7 @@ import RealmSwift
 class Category: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var colour: String = ""
+    @objc dynamic var order: Int = 0
     let items = List<Item>()
     
     override static func primaryKey() -> String? {

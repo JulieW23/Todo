@@ -15,6 +15,7 @@ class ActivityViewModel {
     
     enum timeFrame {
         case day
+        case week
         case month
         case year
     }
@@ -25,11 +26,13 @@ class ActivityViewModel {
         
         let now = Date()
         let calendar = NSCalendar.current
-        let component = calendar.dateComponents([.year, .month, .day, .hour], from: now)
-        if let year = component.year, let month = component.month, let day = component.day, let hour = component.hour {
+        let component = calendar.dateComponents([.year, .month, .weekOfYear, .weekday, .day, .hour], from: now)
+        if let year = component.year, let month = component.month, let week = component.weekOfYear, let day = component.day {
             switch timeFrame {
             case .day:
                 loadStatsHelper(xNumber: 24, filterString: "day == \(day)", timeFrame: .day)
+            case .week:
+                loadStatsHelper(xNumber: 7, filterString: "week == \(week)", timeFrame: .week)
             case .month:
                 loadStatsHelper(xNumber: 31, filterString: "month == \(month)", timeFrame: .month)
             case .year:
@@ -49,8 +52,9 @@ class ActivityViewModel {
         for entry in deletes {
             switch timeFrame {
             case .day: itemsDone[entry.hour] += 1
-            case .month: itemsDone[entry.day] += 1
-            case .year: itemsDone[entry.month] += 1
+            case .week: itemsDone[entry.weekday - 1] += 1
+            case .month: itemsDone[entry.day - 1] += 1
+            case .year: itemsDone[entry.month - 1] += 1
             }
         }
     }

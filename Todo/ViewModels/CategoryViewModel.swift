@@ -18,6 +18,8 @@ class CategoryViewModel {
         let category = Category()
         category.name = name
         category.colour = colour
+        let maxOrder = realm.objects(Category.self).map{$0.order}.max() ?? 0
+        category.order = maxOrder + 1
         do {
             try realm.write {
                 realm.add(category)
@@ -29,7 +31,7 @@ class CategoryViewModel {
     
     // load all categories
     func loadCategories() {
-        categories = realm.objects(Category.self)
+        categories = realm.objects(Category.self).sorted(byKeyPath: "order")
     }
     
     // delete a category and all of it's items
@@ -58,6 +60,31 @@ class CategoryViewModel {
             } catch {
                 print("error updating category colour, \(error)")
             }
+        }
+    }
+    
+    func reorder(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
+        do {
+            try realm.write {
+                if let sourceObject = categories?[sourceIndexPath.row], let destinationObject = categories?[destinationIndexPath.row] {
+                    let destinationObjectOrder = destinationObject.order
+                    
+                    if sourceIndexPath.row < destinationIndexPath.row {
+                        for index in sourceIndexPath.row...destinationIndexPath.row {
+                            let category = categories?[index]
+                            category?.order -= 1
+                        }
+                    } else {
+                        for index in (destinationIndexPath.row..<sourceIndexPath.row).reversed() {
+                            let category = categories?[index]
+                            category?.order += 1
+                        }
+                    }
+                    sourceObject.order = destinationObjectOrder
+                }
+            }
+        } catch {
+            print("Error reordering, \(error)")
         }
     }
 }
