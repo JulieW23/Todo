@@ -21,6 +21,7 @@
 		A1AF3C24212C510A00E91392 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1AF3C23212C510A00E91392 /* Assets.xcassets */; };
 		A1AF3C27212C510A00E91392 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1AF3C25212C510A00E91392 /* LaunchScreen.storyboard */; };
 		A1AF3C58212CB32400E91392 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AF3C57212CB32400E91392 /* CategoryViewController.swift */; };
+		A1DD7748213439470014FFE5 /* DeleteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DD7747213439470014FFE5 /* DeleteData.swift */; };
 		B4425059C04BAFBBB39F5450 /* Pods_Todo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA0369385A00CCB6F370507 /* Pods_Todo.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,7 @@
 		A1AF3C26212C510A00E91392 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1AF3C28212C510A00E91392 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1AF3C57212CB32400E91392 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CategoryViewController.swift; path = Todo/Controllers/CategoryViewController.swift; sourceTree = SOURCE_ROOT; };
+		A1DD7747213439470014FFE5 /* DeleteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 			children = (
 				A1A0F51D212D9FD200EA073B /* Category.swift */,
 				A1A0F51B212D9FC600EA073B /* Item.swift */,
+				A1DD7747213439470014FFE5 /* DeleteData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1DD7748213439470014FFE5 /* DeleteData.swift in Sources */,
 				A1A0F51C212D9FC600EA073B /* Item.swift in Sources */,
 				A1AF3C58212CB32400E91392 /* CategoryViewController.swift in Sources */,
 				A1A0F525212DFFD100EA073B /* TodoListViewModel.swift in Sources */,

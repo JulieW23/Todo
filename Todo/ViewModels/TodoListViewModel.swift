@@ -22,6 +22,7 @@ class TodoListViewModel {
         } catch {
             print("Error deleting item, \(error)")
         }
+        updateData()
     }
     
     // save item
@@ -38,14 +39,21 @@ class TodoListViewModel {
         }
     }
     
-    // set item as done
-    func setDone(item: Item) {
-        do {
-            try realm.write {
-                item.done = !item.done
+    // update data after deleting
+    func updateData() {
+        let now = Date()
+        let calendar = NSCalendar.current
+        let component = calendar.dateComponents([.year, .month, .day, .hour], from: now)
+        
+        if let year = component.year, let month = component.month, let day = component.day, let hour = component.hour {
+            let entry = DeleteData(year: year, month: month, day: day, hour: hour)
+            do {
+                try realm.write {
+                    realm.add(entry)
+                }
+            } catch {
+                print("Error addint new delete data entry, \(error)")
             }
-        } catch {
-            print("Error saving done status, \(error)")
         }
     }
 }

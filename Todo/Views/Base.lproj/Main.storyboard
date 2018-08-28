@@ -23,7 +23,6 @@
                                 <rect key="frame" x="16" y="132" width="343" height="29"/>
                                 <segments>
                                     <segment title="Day"/>
-                                    <segment title="Week"/>
                                     <segment title="Month"/>
                                     <segment title="Year"/>
                                 </segments>
@@ -33,7 +32,7 @@
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhd-wY-35Q" customClass="BarChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="204" width="375" height="221"/>
+                                <rect key="frame" x="16" y="204" width="343" height="221"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="im6-12-oHQ">
@@ -42,19 +41,26 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TOTAL:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1xV-y1-02x">
+                                <rect key="frame" x="16" y="445" width="108" height="38.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="im6-12-oHQ" firstAttribute="top" secondItem="XJD-t3-aUN" secondAttribute="bottom" constant="16" id="1oq-iH-zNT"/>
                             <constraint firstItem="im6-12-oHQ" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" constant="16" id="2kT-xx-gcK"/>
-                            <constraint firstItem="jhd-wY-35Q" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" id="6Xd-Pa-MIR"/>
-                            <constraint firstItem="jhd-wY-35Q" firstAttribute="trailing" secondItem="jZr-7D-iSP" secondAttribute="trailing" id="AZ2-ue-fme"/>
                             <constraint firstItem="jZr-7D-iSP" firstAttribute="bottom" secondItem="jhd-wY-35Q" secondAttribute="bottom" constant="242" id="D7t-9t-wiP"/>
+                            <constraint firstItem="1xV-y1-02x" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" constant="16" id="EyR-wg-hS4"/>
                             <constraint firstItem="XJD-t3-aUN" firstAttribute="top" secondItem="jZr-7D-iSP" secondAttribute="top" constant="16" id="R0O-Na-d49"/>
+                            <constraint firstItem="jZr-7D-iSP" firstAttribute="trailing" secondItem="jhd-wY-35Q" secondAttribute="trailing" constant="16" id="UQX-IA-wCx"/>
                             <constraint firstItem="XJD-t3-aUN" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" constant="16" id="YFS-xc-U6w"/>
+                            <constraint firstItem="1xV-y1-02x" firstAttribute="top" secondItem="jhd-wY-35Q" secondAttribute="bottom" constant="20" id="gTp-kN-Q39"/>
                             <constraint firstItem="jZr-7D-iSP" firstAttribute="trailing" secondItem="XJD-t3-aUN" secondAttribute="trailing" constant="16" id="jhR-H4-UZw"/>
                             <constraint firstItem="jhd-wY-35Q" firstAttribute="top" secondItem="im6-12-oHQ" secondAttribute="bottom" constant="10" id="lUz-2X-8le"/>
-                            <constraint firstItem="jhd-wY-35Q" firstAttribute="top" secondItem="im6-12-oHQ" secondAttribute="bottom" constant="10" id="z3j-9a-J9q"/>
+                            <constraint firstItem="jhd-wY-35Q" firstAttribute="leading" secondItem="jZr-7D-iSP" secondAttribute="leading" constant="16" id="oQC-87-46d"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jZr-7D-iSP"/>
                     </view>
@@ -62,11 +68,13 @@
                     <connections>
                         <outlet property="barChartView" destination="jhd-wY-35Q" id="dAD-tu-Ial"/>
                         <outlet property="segmentedControl" destination="XJD-t3-aUN" id="JXr-4f-psv"/>
+                        <outlet property="titleLabel" destination="im6-12-oHQ" id="n8f-0Z-ZdZ"/>
+                        <outlet property="totalLabel" destination="1xV-y1-02x" id="Ukb-g8-Zm5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gbm-Zm-svi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3801" y="-572"/>
+            <point key="canvasLocation" x="3800.8000000000002" y="-572.56371814092961"/>
         </scene>
         <!--Items-->
         <scene sceneID="6lp-pF-TX4">
