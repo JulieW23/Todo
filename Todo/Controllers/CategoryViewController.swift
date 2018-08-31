@@ -11,7 +11,7 @@ import RealmSwift
 import ChameleonFramework
 import SwipeCellKit
 
-class CategoryViewController: SwipeTableViewController, UIGestureRecognizerDelegate {
+class CategoryViewController: SwipeTableViewController {
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
@@ -20,26 +20,10 @@ class CategoryViewController: SwipeTableViewController, UIGestureRecognizerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
-        longPress.delegate = self
-        tableView.addGestureRecognizer(longPress)
-        doneButton.title = ""
+        setupGestureRecognizer()
         
         viewModel.loadCategories()
         tableView.reloadData()
-    }
-    
-    // MARK: - reorder category functions
-    @objc func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
-        self.title = "Rearrange"
-        doneButton.title = "Done"
-        self.tableView.isEditing = true
-    }
-    
-    @IBAction func doneButtonTapped(_ sender: Any) {
-        self.title = "Categories"
-        tableView.isEditing = false
-        doneButton.title = ""
     }
     
     // MARK: - Tableview datasource
@@ -61,13 +45,6 @@ class CategoryViewController: SwipeTableViewController, UIGestureRecognizerDeleg
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         var superActions: [SwipeAction] = super.tableView(tableView, editActionsForRowAt: indexPath, for: orientation)!
         
-//        guard orientation == .right else { return nil }
-//
-//        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-//            // handle action by updating model with deletion
-//            self.updateModel(at: indexPath)
-//        }
-//
         let colourAction = SwipeAction(style: .destructive, title: "Colour") { action, indexPath in
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let colourViewController = storyBoard.instantiateViewController(withIdentifier: "colourView") as! ColourViewController
@@ -75,12 +52,10 @@ class CategoryViewController: SwipeTableViewController, UIGestureRecognizerDeleg
             colourViewController.categoryIndexPath = indexPath
             self.navigationController?.pushViewController(colourViewController, animated: true)
         }
-//
-//        // customize the action appearance
-//        deleteAction.image = UIImage(named: "delete-icon")
+
         colourAction.image = UIImage(named: "colour-picker-icon")
         colourAction.backgroundColor = UIColor.orange
-//
+
         superActions.append(colourAction)
         return superActions
     }
@@ -131,7 +106,6 @@ class CategoryViewController: SwipeTableViewController, UIGestureRecognizerDeleg
             if (textField.text?.count)! > 0 {
                 self.viewModel.save(name: textField.text!, colour: RandomFlatColorWithShade(.light).hexValue())
                 self.tableView.reloadData()
-            
             }
         }
         alert.addAction(action)
@@ -140,5 +114,27 @@ class CategoryViewController: SwipeTableViewController, UIGestureRecognizerDeleg
             textField.placeholder = "Add a new category"
         }
         present(alert, animated: true, completion: nil)
+    }
+}
+
+// MARK: - reorder category
+extension CategoryViewController: UIGestureRecognizerDelegate {
+    func setupGestureRecognizer() {
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        longPress.delegate = self
+        tableView.addGestureRecognizer(longPress)
+        doneButton.title = ""
+    }
+    
+    @objc func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
+        self.title = "Rearrange"
+        doneButton.title = "Done"
+        self.tableView.isEditing = true
+    }
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        self.title = "Categories"
+        tableView.isEditing = false
+        doneButton.title = ""
     }
 }

@@ -57,6 +57,7 @@ class TodoListViewModel {
         }
     }
     
+    // update item text
     func updateItemText(indexPath: IndexPath, newText: String) {
         do {
             try realm.write {
