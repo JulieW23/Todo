@@ -51,17 +51,17 @@ class TodoListViewController: SwipeTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath) as! itemTableViewCell
+        cell.textField.delegate = self
         
         if let item = viewModel.todoItems?[indexPath.row] {
-            cell.textLabel?.text = item.title
+            cell.textField.text = item.title
             
             if let colour = UIColor(hexString: selectedCategory!.colour)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(viewModel.todoItems!.count)) {
                 cell.backgroundColor = colour
-                cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
-//                cell.tintColor = ContrastColorOf(colour, returnFlat: true)
+                cell.textField.textColor = ContrastColorOf(colour, returnFlat: true)
+                cell.textField.backgroundColor = colour
             }
-            
         } else {
             cell.textLabel?.text = "No Items Added"
         }
@@ -106,17 +106,37 @@ class TodoListViewController: SwipeTableViewController {
 // MARK: - Searchbar
 extension TodoListViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.todoItems = viewModel.todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
-        tableView.reloadData()
+        if (searchBar.text?.count)! > 0 {
+            viewModel.todoItems = viewModel.todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
+            tableView.reloadData()
+        } else {
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text?.count == 0 {
             loadItems()
-
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
         }
+    }
+}
+
+// MARK: - Textfield delegate
+extension TodoListViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let cell = textField.superview?.superview as? UITableViewCell, let table = cell.superview as? UITableView, let indexPath = table.indexPath(for: cell) {
+            if (textField.text?.count)! > 0 {
+                viewModel.updateItemText(indexPath: indexPath, newText: textField.text!)
+            } else {
+                textField.text = viewModel.todoItems?[indexPath.row].title
+            }
+        }
+        textField.resignFirstResponder()
+        return true
     }
 }

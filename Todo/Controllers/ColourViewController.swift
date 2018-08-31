@@ -34,7 +34,6 @@ class ColourViewController: UIViewController, ColorPickerViewDelegate, ColorPick
     
     // MARK - Colour picker flow layout
     func colorPickerView(_ colorPickerView: ColorPickerView, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: 48, height: 48)
         let availableWidth = view.frame.width
         let widthPerItem = availableWidth / 5
         return CGSize(width: widthPerItem, height: widthPerItem)
@@ -43,7 +42,7 @@ class ColourViewController: UIViewController, ColorPickerViewDelegate, ColorPick
     func colorPickerView(_ colorPickerView: ColorPickerView, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 11
     }
-    
+
     func colorPickerView(_ colorPickerView: ColorPickerView, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
@@ -51,7 +50,4 @@ class ColourViewController: UIViewController, ColorPickerViewDelegate, ColorPick
     func colorPickerView(_ colorPickerView: ColorPickerView, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
-    
-    
-    
 }

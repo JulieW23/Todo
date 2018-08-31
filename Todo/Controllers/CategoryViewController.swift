@@ -19,6 +19,7 @@ class CategoryViewController: SwipeTableViewController, UIGestureRecognizerDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         longPress.delegate = self
         tableView.addGestureRecognizer(longPress)
@@ -58,13 +59,15 @@ class CategoryViewController: SwipeTableViewController, UIGestureRecognizerDeleg
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard orientation == .right else { return nil }
+        var superActions: [SwipeAction] = super.tableView(tableView, editActionsForRowAt: indexPath, for: orientation)!
         
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-            // handle action by updating model with deletion
-            self.updateModel(at: indexPath)
-        }
-        
+//        guard orientation == .right else { return nil }
+//
+//        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+//            // handle action by updating model with deletion
+//            self.updateModel(at: indexPath)
+//        }
+//
         let colourAction = SwipeAction(style: .destructive, title: "Colour") { action, indexPath in
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let colourViewController = storyBoard.instantiateViewController(withIdentifier: "colourView") as! ColourViewController
@@ -72,13 +75,14 @@ class CategoryViewController: SwipeTableViewController, UIGestureRecognizerDeleg
             colourViewController.categoryIndexPath = indexPath
             self.navigationController?.pushViewController(colourViewController, animated: true)
         }
-        
-        // customize the action appearance
-        deleteAction.image = UIImage(named: "delete-icon")
+//
+//        // customize the action appearance
+//        deleteAction.image = UIImage(named: "delete-icon")
         colourAction.image = UIImage(named: "colour-picker-icon")
         colourAction.backgroundColor = UIColor.orange
-        
-        return [deleteAction, colourAction]
+//
+        superActions.append(colourAction)
+        return superActions
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
