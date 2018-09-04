@@ -22,6 +22,7 @@ class TodoListViewModel {
         } catch {
             print("Error deleting item, \(error)")
         }
+        updateDeleteData()
     }
     
     // save item
@@ -38,14 +39,34 @@ class TodoListViewModel {
         }
     }
     
-    // set item as done
-    func setDone(item: Item) {
+    // update data after deleting
+    func updateDeleteData() {
+        let now = Date()
+        let calendar = NSCalendar.current
+        let component = calendar.dateComponents([.year, .month, .weekOfYear, .weekday, .day, .hour], from: now)
+        
+        if let year = component.year, let month = component.month, let week = component.weekOfYear, let weekday = component.weekday, let day = component.day, let hour = component.hour {
+            let entry = DeleteData(year: year, month: month, week: week, weekday: weekday, day: day, hour: hour)
+            do {
+                try realm.write {
+                    realm.add(entry)
+                }
+            } catch {
+                print("Error addint new delete data entry, \(error)")
+            }
+        }
+    }
+    
+    // update item text
+    func updateItemText(indexPath: IndexPath, newText: String) {
         do {
             try realm.write {
-                item.done = !item.done
+                if let itemToEdit = todoItems?[indexPath.row] {
+                    itemToEdit.title = newText
+                }
             }
         } catch {
-            print("Error saving done status, \(error)")
+            print("Error updating item text, \(error)")
         }
     }
 }

@@ -13,10 +13,14 @@ import SwipeCellKit
 
 class CategoryViewController: SwipeTableViewController {
     
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+    
     private let viewModel: CategoryViewModel = CategoryViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupGestureRecognizer()
         
         viewModel.loadCategories()
         tableView.reloadData()
@@ -39,12 +43,7 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard orientation == .right else { return nil }
-        
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-            // handle action by updating model with deletion
-            self.updateModel(at: indexPath)
-        }
+        var superActions: [SwipeAction] = super.tableView(tableView, editActionsForRowAt: indexPath, for: orientation)!
         
         let colourAction = SwipeAction(style: .destructive, title: "Colour") { action, indexPath in
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -53,24 +52,27 @@ class CategoryViewController: SwipeTableViewController {
             colourViewController.categoryIndexPath = indexPath
             self.navigationController?.pushViewController(colourViewController, animated: true)
         }
-        
-        // customize the action appearance
-        deleteAction.image = UIImage(named: "delete-icon")
+
         colourAction.image = UIImage(named: "colour-picker-icon")
         colourAction.backgroundColor = UIColor.orange
-        
-        return [deleteAction, colourAction]
+
+        superActions.append(colourAction)
+        return superActions
     }
     
-    // MARK: - Change category colour
-    // TODO: PERSIST COLOUR CHANGE
-    func changeCategoryColour(indexPath: IndexPath, colour: UIColor) {
-//        let cell = tableView.cellForRow(at: indexPath)
-//        cell?.backgroundColor = colour
-        print(colour)
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .none
     }
     
-    // Mark: - Tableview delegate
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        viewModel.reorder(sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
+    }
+
+    // MARK: - Tableview delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToItems", sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -84,14 +86,19 @@ class CategoryViewController: SwipeTableViewController {
         }
     }
     
-    // Mark: - Delete data from swipe
+    // MARK: - Updating data
+    func changeCategoryColour(indexPath: IndexPath, colour: UIColor) {
+        viewModel.updateColour(indexPath: indexPath, hexValue: colour.hexValue())
+        tableView.reloadData()
+    }
+    
     override func updateModel(at indexPath: IndexPath) {
+        // delete a category
         if let categoryForDeletion = self.viewModel.categories?[indexPath.row] {
-            viewModel.delete(category: categoryForDeletion)
+            self.viewModel.delete(category: categoryForDeletion)
         }
     }
     
-    // MARK: - Add new categories
     @IBAction func addButtonPressed(_ sender: Any) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
@@ -107,5 +114,27 @@ class CategoryViewController: SwipeTableViewController {
             textField.placeholder = "Add a new category"
         }
         present(alert, animated: true, completion: nil)
+    }
+}
+
+// MARK: - reorder category
+extension CategoryViewController: UIGestureRecognizerDelegate {
+    func setupGestureRecognizer() {
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        longPress.delegate = self
+        tableView.addGestureRecognizer(longPress)
+        doneButton.title = ""
+    }
+    
+    @objc func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
+        self.title = "Rearrange"
+        doneButton.title = "Done"
+        self.tableView.isEditing = true
+    }
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        self.title = "Categories"
+        tableView.isEditing = false
+        doneButton.title = ""
     }
 }

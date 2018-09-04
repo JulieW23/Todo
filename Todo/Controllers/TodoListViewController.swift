@@ -45,24 +45,23 @@ class TodoListViewController: SwipeTableViewController {
         searchBar.barTintColor = navBarColour
     }
     
-    // MARK - Tableview datasource
+    // MARK: - Tableview datasource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.todoItems?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath) as! itemTableViewCell
+        cell.textField.delegate = self
         
         if let item = viewModel.todoItems?[indexPath.row] {
-            cell.textLabel?.text = item.title
+            cell.textField.text = item.title
             
             if let colour = UIColor(hexString: selectedCategory!.colour)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(viewModel.todoItems!.count)) {
                 cell.backgroundColor = colour
-                cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
-                cell.tintColor = ContrastColorOf(colour, returnFlat: true)
+                cell.textField.textColor = ContrastColorOf(colour, returnFlat: true)
+                cell.textField.backgroundColor = colour
             }
-        
-            cell.accessoryType = item.done ? .checkmark : .none
         } else {
             cell.textLabel?.text = "No Items Added"
         }
@@ -70,15 +69,7 @@ class TodoListViewController: SwipeTableViewController {
         return cell
     }
     
-    // MARK - Tableview delegate
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let item = viewModel.todoItems?[indexPath.row] {
-            viewModel.setDone(item: item)
-        }
-        tableView.reloadData()
-    }
-    
-    // MARK - Add new items
+    // MARK: - Add new items
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
          let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
@@ -99,7 +90,7 @@ class TodoListViewController: SwipeTableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    // Mark - Model Manipulation Methods
+    // MARK: - Model Manipulation Methods
     private func loadItems() {
         viewModel.todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
         tableView.reloadData()
@@ -112,20 +103,40 @@ class TodoListViewController: SwipeTableViewController {
     }
 }
 
-// MARK - Searchbar
+// MARK: - Searchbar
 extension TodoListViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.todoItems = viewModel.todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
-        tableView.reloadData()
+        if (searchBar.text?.count)! > 0 {
+            viewModel.todoItems = viewModel.todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
+            tableView.reloadData()
+        } else {
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text?.count == 0 {
             loadItems()
-
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
         }
+    }
+}
+
+// MARK: - Textfield delegate
+extension TodoListViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let cell = textField.superview?.superview as? UITableViewCell, let table = cell.superview as? UITableView, let indexPath = table.indexPath(for: cell) {
+            if (textField.text?.count)! > 0 {
+                viewModel.updateItemText(indexPath: indexPath, newText: textField.text!)
+            } else {
+                textField.text = viewModel.todoItems?[indexPath.row].title
+            }
+        }
+        textField.resignFirstResponder()
+        return true
     }
 }
