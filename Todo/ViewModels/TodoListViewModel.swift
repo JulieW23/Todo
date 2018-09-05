@@ -8,9 +8,10 @@
 
 import Foundation
 import RealmSwift
+import UserNotifications
 
 class TodoListViewModel {
-    let realm = try! Realm()
+    private let realm = try! Realm()
     var todoItems: Results<Item>? // list of items
     
     // delete item
@@ -30,6 +31,8 @@ class TodoListViewModel {
         do {
             try self.realm.write {
                 let newItem = Item()
+                let maxId = realm.objects(Item.self).map{$0.id}.max() ?? 0
+                newItem.id = maxId + 1
                 newItem.title = name
                 newItem.dateCreated = Date()
                 currentCategory.items.append(newItem)
@@ -67,6 +70,47 @@ class TodoListViewModel {
             }
         } catch {
             print("Error updating item text, \(error)")
+        }
+    }
+    
+    // update item reminder
+    func setItemReminder(indexPath: IndexPath, reminderDate: Date? = nil) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        // realm
+        if let itemToEdit = todoItems?[indexPath.row] {
+            do {
+                try realm.write {
+                    if reminderDate != nil {
+                        itemToEdit.reminder = reminderDate
+                    } else {
+                        itemToEdit.reminder = nil
+                    }
+                }
+            } catch {
+                print("Error updating item reminder, \(error)")
+            }
+            
+            // notif
+            // remove existing pending notif for the item if exists
+            appDelegate.notifCenter?.removePendingNotificationRequests(withIdentifiers: [String(itemToEdit.id)])
+            // add pending notif
+            if reminderDate != nil {
+                let content = UNMutableNotificationContent()
+                content.title = "Reminder:"
+                content.body = itemToEdit.title
+                content.sound = UNNotificationSound.default()
+                
+                let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: reminderDate!)
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+                
+                let request = UNNotificationRequest(identifier: String(itemToEdit.id), content: content, trigger: trigger)
+                appDelegate.notifCenter?.add(request, withCompletionHandler: { (error) in
+                    if let error = error {
+                        print("\(error)")
+                    }
+                })
+            }
         }
     }
 }

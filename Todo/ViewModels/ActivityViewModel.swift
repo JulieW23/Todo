@@ -11,16 +11,16 @@ import RealmSwift
 
 class ActivityViewModel {
     var itemsDone: [Double] = []
-    let realm = try! Realm()
+    private let realm = try! Realm()
     
-    enum timeFrame {
+    enum TimeFrame {
         case day
         case week
         case month
         case year
     }
     
-    func loadStats(for timeFrame: timeFrame) {
+    func loadStats(for timeFrame: TimeFrame) {
         // clear array
         itemsDone = []
         
@@ -41,7 +41,7 @@ class ActivityViewModel {
         }
     }
     
-    func loadStatsHelper(xNumber: Int, filterString: String, timeFrame: timeFrame) {
+    func loadStatsHelper(xNumber: Int, filterString: String, timeFrame: TimeFrame) {
         // fill itemsDone with the right number of slots
         for _ in 0..<xNumber {
             itemsDone.append(0)

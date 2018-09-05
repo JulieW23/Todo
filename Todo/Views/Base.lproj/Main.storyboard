@@ -119,7 +119,7 @@
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="gKH-cA-mla" secondAttribute="bottom" constant="6" id="1ex-WV-HY0"/>
                                         <constraint firstItem="gKH-cA-mla" firstAttribute="leading" secondItem="cN9-Go-VBX" secondAttribute="leading" constant="16" id="NaR-TN-3wi"/>
-                                        <constraint firstAttribute="trailing" secondItem="gKH-cA-mla" secondAttribute="trailing" constant="16" id="XwG-TB-sBW"/>
+                                        <constraint firstAttribute="trailing" secondItem="gKH-cA-mla" secondAttribute="trailing" constant="16" id="l7v-HA-TrC"/>
                                         <constraint firstItem="gKH-cA-mla" firstAttribute="top" secondItem="cN9-Go-VBX" secondAttribute="top" constant="6" id="xFv-9s-nKJ"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -142,6 +142,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="WRB-gY-Zeu" id="Eej-8T-x6w"/>
+                        <segue destination="MOR-Cc-BOr" kind="show" id="zGd-rh-TOV"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v1C-Wj-b2y" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -260,6 +261,73 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9WZ-ub-zr2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2829.5999999999999" y="887.40629685157433"/>
+        </scene>
+        <!--Reminder-->
+        <scene sceneID="VC3-TI-avk">
+            <objects>
+                <viewController storyboardIdentifier="reminderView" id="MOR-Cc-BOr" customClass="ReminderViewController" customModule="Todo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xkr-im-zt6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="vyx-da-rmR">
+                                <rect key="frame" x="0.0" y="225" width="375" height="216"/>
+                                <date key="date" timeIntervalSinceReferenceDate="557850215.64088297">
+                                    <!--2018-09-05 14:23:35 +0000-->
+                                </date>
+                                <connections>
+                                    <action selector="datePickerChanged:" destination="MOR-Cc-BOr" eventType="valueChanged" id="T7p-CR-1Kb"/>
+                                </connections>
+                            </datePicker>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MM/DD/YY HH:MM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5D1-cQ-haA">
+                                <rect key="frame" x="109.5" y="188" width="156.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remind me on day:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbH-gc-tOX">
+                                <rect key="frame" x="16" y="132" width="146" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OBp-39-XkO">
+                                <rect key="frame" x="310" y="132" width="51" height="31"/>
+                                <connections>
+                                    <action selector="handleSwitchToggle:" destination="MOR-Cc-BOr" eventType="valueChanged" id="GFL-8v-VhG"/>
+                                </connections>
+                            </switch>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="5D1-cQ-haA" firstAttribute="top" secondItem="qbH-gc-tOX" secondAttribute="bottom" constant="35" id="2TY-m8-7Xf"/>
+                            <constraint firstItem="vyx-da-rmR" firstAttribute="leading" secondItem="Mh6-EL-PuV" secondAttribute="leading" id="Az7-iB-mIZ"/>
+                            <constraint firstItem="qbH-gc-tOX" firstAttribute="top" secondItem="Mh6-EL-PuV" secondAttribute="top" constant="16" id="Dgw-hl-7cp"/>
+                            <constraint firstItem="qbH-gc-tOX" firstAttribute="leading" secondItem="Mh6-EL-PuV" secondAttribute="leading" constant="16" id="FPB-Tp-lbQ"/>
+                            <constraint firstItem="Mh6-EL-PuV" firstAttribute="trailing" secondItem="OBp-39-XkO" secondAttribute="trailing" constant="16" id="XzQ-Kp-QUO"/>
+                            <constraint firstItem="vyx-da-rmR" firstAttribute="top" secondItem="5D1-cQ-haA" secondAttribute="bottom" constant="16" id="eGt-Dm-wO9"/>
+                            <constraint firstItem="OBp-39-XkO" firstAttribute="top" secondItem="Mh6-EL-PuV" secondAttribute="top" constant="16" id="lnJ-Nh-wld"/>
+                            <constraint firstItem="5D1-cQ-haA" firstAttribute="centerX" secondItem="xkr-im-zt6" secondAttribute="centerX" id="ruq-hN-eBb"/>
+                            <constraint firstItem="vyx-da-rmR" firstAttribute="trailing" secondItem="Mh6-EL-PuV" secondAttribute="trailing" id="tZg-tB-gnc"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Mh6-EL-PuV"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Reminder" id="E2H-yn-7UI">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="AU0-Gv-Mmx">
+                            <connections>
+                                <action selector="setReminder:" destination="MOR-Cc-BOr" id="brk-gy-ycF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="datePicker" destination="vyx-da-rmR" id="a97-td-C4y"/>
+                        <outlet property="reminderLabel" destination="5D1-cQ-haA" id="RPT-Bq-Lq9"/>
+                        <outlet property="reminderSwitch" destination="OBp-39-XkO" id="d00-hO-sxF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LiQ-Kd-BTO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3801" y="887"/>
         </scene>
     </scenes>
     <resources>

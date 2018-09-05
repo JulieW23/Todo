@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import ChameleonFramework
+import SwipeCellKit
 
 class TodoListViewController: SwipeTableViewController {
     
@@ -69,6 +70,31 @@ class TodoListViewController: SwipeTableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        var superActions: [SwipeAction] = super.tableView(tableView, editActionsForRowAt: indexPath, for: orientation)!
+        
+        let reminderAction = SwipeAction(style: .destructive, title: "Reminder") { (action, indexPath) in
+            // reminder action code
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let reminderViewController = storyBoard.instantiateViewController(withIdentifier: "reminderView") as! ReminderViewController
+            reminderViewController.todoListViewController = self
+            reminderViewController.todoIndexPath = indexPath
+            if let date = self.viewModel.todoItems?[indexPath.row].reminder {
+                reminderViewController.switchOn = true
+                reminderViewController.date = date
+            } else {
+                reminderViewController.switchOn = false
+            }
+            self.navigationController?.pushViewController(reminderViewController, animated: true)
+        }
+        
+        reminderAction.image = UIImage(named: "calendar-icon")
+        reminderAction.backgroundColor = UIColor.lightGray
+        superActions.append(reminderAction)
+        
+        return superActions
+    }
+    
     // MARK: - Add new items
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
@@ -100,6 +126,15 @@ class TodoListViewController: SwipeTableViewController {
         if let item = viewModel.todoItems?[indexPath.row] {
             viewModel.delete(item: item)
         }
+    }
+    
+    func setReminder(indexPath: IndexPath, date: Date?) {
+        if date != nil {
+            viewModel.setItemReminder(indexPath: indexPath, reminderDate: date)
+        } else {
+            viewModel.setItemReminder(indexPath: indexPath)
+        }
+        tableView.reloadData()
     }
 }
 

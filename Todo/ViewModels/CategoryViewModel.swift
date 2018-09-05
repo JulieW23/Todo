@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 class CategoryViewModel {
-    let realm = try! Realm()
+    private let realm = try! Realm()
     var categories: Results<Category>? // list of categories
     
     // save a category
